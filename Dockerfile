@@ -69,6 +69,9 @@ RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.co
 USER root
 RUN chown -R root:root /home/linuxbrew/.linuxbrew
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
+# Install CLI tools for OpenClaw skills (GitHub CLI, FFmpeg, Summarize)
+RUN brew install gh ffmpeg
+RUN npm install -g @anthropics/summarize-cli
 
 WORKDIR /app
 
