@@ -71,7 +71,6 @@ RUN /home/linuxbrew/.linuxbrew/bin/brew install gh ffmpeg
 USER root
 RUN chown -R root:root /home/linuxbrew/.linuxbrew
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
-RUN npm install -g @anthropics/summarize-cli
 
 WORKDIR /app
 
