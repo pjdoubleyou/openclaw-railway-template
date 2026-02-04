@@ -71,6 +71,7 @@ RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.co
 # Install CLI tools for OpenClaw skills
 RUN /home/linuxbrew/.linuxbrew/bin/brew install gh ffmpeg
 RUN /home/linuxbrew/.linuxbrew/bin/brew tap Hyaxia/tap && /home/linuxbrew/.linuxbrew/bin/brew install blogwatcher
+RUN /home/linuxbrew/.linuxbrew/bin/brew tap steipete/tap && /home/linuxbrew/.linuxbrew/bin/brew install gogcli
 
 USER root
 RUN chown -R root:root /home/linuxbrew/.linuxbrew
