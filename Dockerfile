@@ -68,7 +68,10 @@ RUN useradd -m -s /bin/bash linuxbrew \
 USER linuxbrew
 RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Install CLI tools for OpenClaw skills (GitHub CLI, FFmpeg, Summarize)
+# Install CLI tools for OpenClaw skills
+RUN /home/linuxbrew/.linuxbrew/bin/brew install gh ffmpeg
+RUN /home/linuxbrew/.linuxbrew/bin/brew tap Hyaxia/tap && /home/linuxbrew/.linuxbrew/bin/brew install blogwatcher
+
 USER root
 RUN chown -R root:root /home/linuxbrew/.linuxbrew
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
