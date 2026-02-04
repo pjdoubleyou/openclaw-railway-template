@@ -73,7 +73,7 @@ USER root
 RUN chown -R root:root /home/linuxbrew/.linuxbrew
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
 RUN npm install -g text-summarization
-RUN pip install openai-whisper --break-system-packages
+RUN pip3 install openai-whisper --break-system-packages
 
 WORKDIR /app
 
