@@ -69,11 +69,11 @@ USER linuxbrew
 RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Install CLI tools for OpenClaw skills (GitHub CLI, FFmpeg, Summarize)
-RUN /home/linuxbrew/.linuxbrew/bin/brew install gh ffmpeg
 USER root
 RUN chown -R root:root /home/linuxbrew/.linuxbrew
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
 RUN npm install -g text-summarization
+RUN pip install openai-whisper --break-system-packages
 
 WORKDIR /app
 
