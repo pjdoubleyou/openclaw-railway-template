@@ -69,22 +69,30 @@ USER linuxbrew
 RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Install CLI tools for OpenClaw skills
-RUN /home/linuxbrew/.linuxbrew/bin/brew install gh ffmpeg
-RUN /home/linuxbrew/.linuxbrew/bin/brew tap Hyaxia/tap && /home/linuxbrew/.linuxbrew/bin/brew install blogwatcher
-RUN /home/linuxbrew/.linuxbrew/bin/brew tap steipete/tap && /home/linuxbrew/.linuxbrew/bin/brew install gogcli
+RUN /home/linuxbrew/.linuxbrew/bin/brew install gh ffmpeg \
+  && /home/linuxbrew/.linuxbrew/bin/brew tap Hyaxia/tap && /home/linuxbrew/.linuxbrew/bin/brew install blogwatcher \
+  && /home/linuxbrew/.linuxbrew/bin/brew tap steipete/tap && /home/linuxbrew/.linuxbrew/bin/brew install gogcli \
+  && /home/linuxbrew/.linuxbrew/bin/brew cleanup --prune=all \
+  && rm -rf /home/linuxbrew/.cache/Homebrew
 
 USER root
 RUN chown -R root:root /home/linuxbrew/.linuxbrew
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
-RUN npm install -g text-summarization
-RUN npm install -g clawdhub
-RUN apt-get update && apt-get install -y python3-pip && rm -rf /var/lib/apt/lists/*
-RUN pip3 install openai-whisper --break-system-packages
+RUN npm install -g text-summarization \
+  && npm install -g clawdhub \
+  && npm cache clean --force
+RUN apt-get update && apt-get install -y python3-pip && rm -rf /var/lib/apt/lists/* \
+  && pip3 install openai-whisper --break-system-packages \
+  && rm -rf /root/.cache/pip
 
 # Browser control
-RUN npm install -g playwright
-RUN npx playwright install chromium
-RUN npx playwright install-deps chromium
+RUN npm install -g playwright \
+  && npx playwright install chromium \
+  && npx playwright install-deps chromium \
+  && npm cache clean --force
+
+# Remove build tools no longer needed at runtime
+RUN apt-get purge -y build-essential gcc g++ make && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
