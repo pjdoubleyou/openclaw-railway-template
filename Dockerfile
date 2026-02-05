@@ -80,6 +80,12 @@ RUN npm install -g text-summarization
 RUN npm install -g clawdhub
 RUN apt-get update && apt-get install -y python3-pip && rm -rf /var/lib/apt/lists/*
 RUN pip3 install openai-whisper --break-system-packages
+
+# Browser control
+RUN npm install -g playwright
+RUN npx playwright install chromium
+RUN npx playwright install-deps chromium
+
 WORKDIR /app
 
 # Wrapper deps
