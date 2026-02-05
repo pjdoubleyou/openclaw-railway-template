@@ -90,6 +90,7 @@ RUN npm install -g playwright \
   && npx playwright install chromium \
   && npx playwright install-deps chromium \
   && npm cache clean --force
+RUN which chromium || which chromium-browser || echo "Chromium not found in PATH"
 
 # Remove build tools no longer needed at runtime
 RUN apt-get purge -y build-essential gcc g++ make && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
