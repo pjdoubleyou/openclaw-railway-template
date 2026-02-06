@@ -897,7 +897,14 @@ proxy.on("proxyReqWs", (proxyReq, req, socket, options, head) => {
   console.log(`[proxy-event] WebSocket proxyReqWs event fired for ${req.url}`);
   console.log(`[proxy-event] Headers:`, JSON.stringify(proxyReq.getHeaders()));
 });
-
+// Serve static files from media directory
+app.use('/media', express.static('/data/.openclaw/media', {
+  maxAge: '1d', // Cache for 1 day
+  setHeaders: (res, path) => {
+    // Allow CORS for media files
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
+}));
 app.use(async (req, res) => {
   // If not configured, force users to /setup for any non-setup routes.
   if (!isConfigured() && !req.path.startsWith("/setup")) {
