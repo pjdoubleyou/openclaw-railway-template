@@ -84,13 +84,31 @@ RUN npm install -g text-summarization \
 RUN apt-get update && apt-get install -y python3-pip && rm -rf /var/lib/apt/lists/* \
   && pip3 install openai-whisper --break-system-packages \
   && rm -rf /root/.cache/pip
+  
+# Browser control - install system chromium
+RUN apt-get update && apt-get install -y \
+chromium \
+chromium-sandbox \
+fonts-liberation \
+libasound2 \
+libatk-bridge2.0-0 \
+libatk1.0-0 \
+libcups2 \
+libdbus-1-3 \
+libdrm2 \
+libgbm1 \
+libgtk-3-0 \
+libnspr4 \
+libnss3 \
+libxcomposite1 \
+libxdamage1 \
+libxrandr2 \
+xdg-utils \
+--no-install-recommends \
+&& rm -rf /var/lib/apt/lists/*
 
-# Browser control
-RUN npm install -g playwright \
-  && npx playwright install chromium \
-  && npx playwright install-deps chromium \
-  && npm cache clean --force
-RUN which chromium || which chromium-browser || echo "Chromium not found in PATH"
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+ENV CHROME_BIN=/usr/bin/chromium
 
 # Remove build tools no longer needed at runtime
 RUN apt-get purge -y build-essential gcc g++ make && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
