@@ -1,5 +1,5 @@
 # Build openclaw from source to avoid npm packaging gaps (some dist files are not shipped, hope this works) 
-# Cache bust: v2
+# Cache bust: v3
 FROM node:22-bookworm AS openclaw-build
 
 # Dependencies needed for openclaw build
@@ -33,7 +33,8 @@ RUN set -eux; \
     sed -i -E 's/"openclaw"[[:space:]]*:[[:space:]]*"workspace:[^"]+"/"openclaw": "*"/g' "$f"; \
   done
 
-RUN pnpm config set minimumReleaseAge 0 --location project
+# Disable minimumReleaseAge to avoid build failures from freshly-published deps
+RUN echo 'minimumReleaseAge=0s' >> .npmrc
 RUN pnpm install --no-frozen-lockfile
 RUN pnpm build
 ENV OPENCLAW_PREFER_PNPM=1
